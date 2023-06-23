@@ -131,10 +131,50 @@ fn test_trait() {
 
 }
 
+fn test5() {
+    let a = [1, 2, 4, 5, 6];
+    let mut b: [i32; 3] = [1, 2, 3];
+    b[1] = 10;
+    let c = a[1..4].iter().cloned().collect::<Vec<i32>>();
+    println!("{:?}", c);
+    // use std::array;
+    // convert a slice to an array
+    // let c2: [i32; 3] = Array::from_slice(&a[1..4]);
+
+    let data = "Rust is great!".to_string();
+    let c = data;
+
+    enum Message {
+        // TODO: define the different variants used below
+        Move { x: i32, y: i32 },
+        Echo(String),
+        ChangeColor(i32, i32, i32),
+        Quit,
+    }
+
+    let messages: [Message; 4] = [
+        Message::Move { x: 10, y: 30 },
+        Message::Echo(String::from("hello world")),
+        Message::ChangeColor(200, 255, 255),
+        Message::Quit,
+    ];
+
+    for message in &messages {
+        // 
+    }
+
+    let s1 = "Hello, world!";
+    let s2 = s1.to_owned();
+    let s3 = "  hello there ".trim();
+    let s3 = s2.trim();
+    let s4: String = "foo".into();
+}
+
 fn main() {
     // test1();
     // test2();
     // test3();
     // test4();
-    test_trait();
+    // test_trait();
+    test5();
 }
