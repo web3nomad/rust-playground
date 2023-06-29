@@ -32,7 +32,7 @@ fn test1() {
 }
 
 fn test2() {
-    
+
 }
 
 fn main() {
