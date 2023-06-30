@@ -30,18 +30,4 @@ async fn main() {
     }
 
     get_body().await.unwrap();
-
-    let mut a = 1;
-
-    let mut c = || {
-        a += 1;
-        println!("a: {}", a);
-        // println!("a");
-    };
-
-    c();
-
-    // call_fn_once(c); // 实现了 FnOnce trait
-    // call_fn(c); // 实现了Fn trait，FnMut trait,FnOnce trait,后面两种trait都是通过继承实现的
-    // call_fn_mut(c); // 实现了FnMut trait,FnOnce trait
 }

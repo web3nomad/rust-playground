@@ -2,5 +2,6 @@
 members = [
     'axum',
     'module-one',
+    'module-two',
     'ai-bots',
 ]
