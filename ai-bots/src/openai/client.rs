@@ -12,7 +12,7 @@ impl Client {
             openai_token: openai_token.to_string(),
         }
     }
-    pub async fn chat(&self, history_messages: &Vec<Message>) -> Result<String, reqwest::Error> {
+    pub async fn _chat_openai(&self, history_messages: &Vec<Message>) -> Result<String, reqwest::Error> {
         // println!("{:?}", history_messages);
         let messages: Vec<serde_json::Value> = history_messages.iter().map(|message| {
             json!({
@@ -25,6 +25,36 @@ impl Client {
             .bearer_auth(&self.openai_token)
             .json(&json!({
                 "model": "gpt-3.5-turbo",
+                "messages": messages
+            }))
+            .send()
+            .await?
+            .text()
+            .await?;
+        // println!("body = {:?}\n", body);
+        let json_data: serde_json::Value = serde_json::from_str(&body).unwrap();
+        let message_value = &(json_data["choices"][0]["message"]["content"]);
+        let response = message_value.as_str().unwrap().to_string();
+        Ok(response)
+    }
+    pub async fn chat(&self, history_messages: &Vec<Message>) -> Result<String, reqwest::Error> {
+        let messages: Vec<serde_json::Value> = history_messages.iter().map(|message| {
+            json!({
+                "role": message.role,
+                "content": message.content
+            })
+        }).collect();
+        let model_name = "TezignOpenAI-GPT-35";
+        let version = "2023-03-15-preview";
+        let endpoint = "tezignopenai";
+        let url = format!(
+            "https://{}.openai.azure.com/openai/deployments/{}/chat/completions?api-version={}",
+            endpoint, model_name, version);
+        let body = reqwest::Client::new()
+            .post(url)
+            .header("Content-Type", "application/json")
+            .header("api-key", &self.openai_token)
+            .json(&json!({
                 "messages": messages
             }))
             .send()

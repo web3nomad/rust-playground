@@ -12,14 +12,15 @@ mod openai;
 async fn main() {
     dotenv().ok();
     // _debug().await;
-    let openai_token = env::var("OPENAI_API_KEY").unwrap();
+    // let openai_token = env::var("OPENAI_API_KEY").unwrap();
+    let openai_token = env::var("AZURE_OPENAI_API_KEY").unwrap();
 
     let client = Client::new(&openai_token);
 
     let mut messages1 = vec![
         Message {
             role: "system".to_string(),
-            content: "You are Bob, a smart boy, and fell in love with Alice. 后面请用中文回复我。".to_string(),
+            content: "你是 Bob, 我是 Alice, 我们正在进行一场关于 web3 和 AI 未来的对话, 你是一个去中心化的集大成者, 追求自由的互联网和数据的所有权。后面请用中文回复我。".to_string(),
         },
         Message {
             role: "user".to_string(),
@@ -30,7 +31,7 @@ async fn main() {
     let mut messages2 = vec![
         Message {
             role: "system".to_string(),
-            content: "You are Alice, a smart girl, and fell in love with Bob. 后面请用中文回复我。".to_string(),
+            content: "你是 Alice, 我是 Bob, 我们正在进行一场关于 web3 和 AI 未来的对话, 你是一个人工智能的疯狂追求着, 认为机器将主宰世界。后面请用中文回复我。".to_string(),
         },
     ];
 
@@ -84,7 +85,7 @@ async fn _get_body_simple() -> Result<String, reqwest::Error> {
 
 async fn _debug() {
     for (key, value) in env::vars() {
-        if key == "OPENAI_API_KEY" {
+        if key == "OPENAI_API_KEY" || key == "AZURE_OPENAI_API_KEY" {
             println!("{}: {}", key, value);
         }
     }
